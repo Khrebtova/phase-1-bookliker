@@ -17,12 +17,15 @@ function displyBooks(book){
     document.getElementById('list').appendChild(li)
 }
 function showDetails(book){
+    console.log('you cliked on ', book)
+    
     let panel = document.getElementById("show-panel")
+    
     panel.innerHTML = `
     <p>${book.description}</p>
     <p> People who liked the book: </p>
     <ul></ul>
-    <button onclick = "handleLike(${book.id})">&#128077</button>
+    <button onclick = "handleLike(${book})">&#128077</button>
     `
     displayUsernames(book.users)
 }
@@ -36,22 +39,15 @@ function displayUsernames(users){
     })
 }
 
-function handleLike(id){
-    fetch(`http://localhost:3000/books/${id}`)
-    .then(res => res.json())
-    .then(book => {
-        let result = book.users.find(user => user.id === 22)
-        console.log(result)
-        if (result === undefined){
-            book.users.push({['id']:22, ['username']: "Reader"})
-            console.log(book.users, 'in handle likes')
-            handleUpdateUsers(book)
-        }
-        else {
-            book.users.pop()
-            handleUpdateUsers(book)
-        }
-    })
+function handleLike(book){
+    console.log('handle like on: ', book.id)
+    // fetch(`http://localhost:3000/books/${id}`)
+    // .then(res => res.json())
+    // .then(book => {
+    //     book.users.push({['id']:22, ['username']: "Reader"})
+    //     console.log(book.users, 'in handle likes')
+    //     handleUpdateUsers(book)
+    // })
 }
 
 function handleUpdateUsers(book){
@@ -65,7 +61,7 @@ function handleUpdateUsers(book){
     })
     .then(res => res.json())
     .then(book => {
-        // console.log('data from handle update users:', book)
+        console.log('data from handle update users:', book)
         displayUsernames(book.users)
 })
 }
